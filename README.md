@@ -7,17 +7,18 @@ It aims to provide an easy way to create valid challenge XML files using a simpl
 #### IDs
 The item IDs were stripped from the HTML source of the PlatinumGod ( <3 to elucidator). To do this, a mixture of bash scripting, text editor magic, and eventually excel were all used.
 
-1. Firstly the source HTML was copied into a text file and split into segments for Items & Trinkets.
-2. Next this text file was de-crudded to return only lines containing the ID or name, using bash:
+* Firstly the source HTML was copied into a text file and split into segments for Items & Trinkets.
+* Next this text file was de-crudded to return only lines containing the ID or name, using bash:
+```shell
+egrep 'item-title|TrinketID' PG_Dump_Items.txt >> Items_Strip1.txt
+```
 
-```egrep 'item-title|TrinketID' PG_Dump_Items.txt >> Items_Strip1.txt```
-
-3. This file was then opened using a text editor. The html tags were stripped out and a comma was added between the pairs.
-4. Next the Item IDs were shifted to the beginning of the line using awk:
-
-```awk -F',' '{ print $2","$1 }' Items_Strip1.txt >> Items_Strip2.txt```
-
-5. And finally the list was sorted by item ID to make everything logical for import later.
+* This file was then opened using a text editor. The html tags were stripped out and a comma was added between the pairs.
+* Next the Item IDs were shifted to the beginning of the line using awk:
+```shell
+awk -F',' '{ print $2","$1 }' Items_Strip1.txt >> Items_Strip2.txt
+```
+* And finally the list was sorted by item ID to make everything logical for import later.
 
 (Eventually I will possibly store all this data in a sqlite database to keep it all compact)
 
