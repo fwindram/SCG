@@ -11,10 +11,12 @@ The item IDs were stripped from the HTML source of the PlatinumGod ( <3 to eluci
 2. Next this text file was de-crudded to return only lines containing the ID or name, using bash:
 
 ```egrep 'item-title|TrinketID' PG_Dump_Items.txt >> Items_Strip1.txt```
+
 3. This file was then opened using a text editor. The html tags were stripped out and a comma was added between the pairs.
 4. Next the Item IDs were shifted to the beginning of the line using awk:
 
 ```awk -F',' '{ print $2","$1 }' Items_Strip1.txt >> Items_Strip2.txt```
+
 5. And finally the list was sorted by item ID to make everything logical for import later.
 
 (Eventually I will possibly store all this data in a sqlite database to keep it all compact)

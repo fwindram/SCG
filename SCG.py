@@ -1,9 +1,9 @@
-# Skeletorfw's Challenge Generator v 0.0.2
+# Skeletorfw's Challenge Generator v 0.0.3
 # Skeletorfw 2017
 # Python 3.4
 #
 # Created:  08/02/17
-# Modified: 09/02/17
+# Modified: 10/02/17
 #
 # A Challenge XML Generator for Binding of Isaac Afterbirth+.
 #
@@ -13,16 +13,18 @@
 # TODO: Output general class to XML file
 # TODO: Create easy way to share runs: Seed system
 # TODO: Create gui using tkinter
+# TODO: Find achievement IDs
 
 # SEEDS
-# Could just cat all vars together as a CSF, separating list entries e.g. items with dots, then base64 encode?
+# Could just cat all vars together as a CSF, separating list entries (e.g. items) with dots, then base64 encode?
 # 1,name,6,404.412.300.12,15,5,0,3,1.3,2.4.8,16,50.51,-1,1,0,0,0,0,3,100,0,0,0,0,0,1
 
-# import tkinter
+import csv
 
 
 class Run:
-    """Holds run data"""
+    """Holds run data.
+    Requires: runid, runname, endstage"""
     def __init__(self, runid, runname, endstage):
         # Required variables
         self.runid = runid
@@ -52,3 +54,24 @@ class Run:
         self.bigrange = False
         self.hardmode = False    # Sets difficulty to 1 if True
         self.megasatan = False
+
+
+def loaddata():
+    """Loads data from CSVs into dicts for quick use.
+    Requires: N/A
+    Returns: boi_items, boi_trinkets"""
+    # Will need to generate an achievements list.
+    boi_items = {}
+    boi_trinkets = {}
+    itempath = "./data/items.csv"
+    trinketspath = "./data/trinkets.csv"
+    with open(itempath, newline='') as itemfile:
+        itemreader = csv.reader(itemfile)
+        for row in itemreader:
+            boi_items[int(row[0])] = row[1]
+    with open(trinketspath, newline='') as trinketsfile:
+        trinketreader = csv.reader(trinketsfile)
+        for row in trinketreader:
+            boi_trinkets[int(row[0])] = row[1]
+    return boi_items, boi_trinkets
+loaddata()
