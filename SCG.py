@@ -84,7 +84,7 @@ def construct_runstr():
     # Remember to escape all quotes and leave no starting or trailing spaces!
 
 
-def XML_export():
+def xml_export():
     """Exports final challenge XML file from Run class.
     Requires: run
     Returns: N/A"""

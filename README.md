@@ -18,7 +18,7 @@ egrep 'item-title|TrinketID' PG_Dump_Items.txt >> Items_Strip1.txt
 ```shell
 awk -F',' '{ print $2","$1 }' Items_Strip1.txt >> Items_Strip2.txt
 ```
-* And finally the list was sorted by item ID to make everything logical for import later.
+* Finally the list was sorted by item ID and converted to CSV to make everything logical for import later.
 
 (Eventually I will possibly store all this data in a sqlite database to keep it all compact)
 
