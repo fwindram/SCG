@@ -20,6 +20,7 @@
 # 1,name,6,404.412.300.12,15,5,0,3,1.3,2.4.8,16,50.51,-1,1,0,0,0,0,3,100,0,0,0,0,0,1
 
 import csv
+from tkinter import filedialog
 
 
 class Run:
@@ -74,4 +75,26 @@ def loaddata():
         for row in trinketreader:
             boi_trinkets[int(row[0])] = row[1]
     return boi_items, boi_trinkets
-loaddata()
+
+
+def construct_runstr():
+    """Constructs run string.
+    Requires: run
+    Returns: runstr"""
+    # Remember to escape all quotes and leave no starting or trailing spaces!
+
+
+def XML_export():
+    """Exports final challenge XML file from Run class.
+    Requires: run
+    Returns: N/A"""
+    # Need to force tkinter save dialog to front. Might be different on different OSs?
+    # Construct initialfile from runname
+    outfile = filedialog.asksaveasfile(mode='w', defaultextension=".xml", initialfile="")
+    if outfile is None:     # Jump out if cancel is pressed
+        return
+    runstr = ""
+    outfile.write("<challenges version=\"1\">\n")           # Header
+    outfile.write("<challenge {0} />\n".format(runstr))     # Challenge
+    outfile.write("</challenges>\n")                        # Footer
+    outfile.close()
