@@ -6,6 +6,7 @@
 # Modified: 10/02/17
 #
 # A Challenge XML Generator for Binding of Isaac Afterbirth+.
+# Due to the python backend, this application should be platform-agnostic
 #
 # ===== TO DO LIST =====
 # TODO: Place cases into dicts
@@ -23,7 +24,7 @@ import csv
 from tkinter import filedialog
 
 
-class Run:
+class RunContainer:
     """Holds run data.
     Requires: runid, runname, endstage"""
     def __init__(self, runid, runname, endstage):
@@ -50,8 +51,8 @@ class Run:
         self.coins = 0
         self.maxdmg = 100    # cannot be less than 100
         self.adddmg = 0
-        self.minfirerate = 0
-        self.minshotspeed = 0
+        self.minfirerate = -1
+        self.minshotspeed = -1
         self.bigrange = False
         self.hardmode = False    # Sets difficulty to 1 if True
         self.megasatan = False
@@ -77,11 +78,67 @@ def loaddata():
     return boi_items, boi_trinkets
 
 
-def construct_runstr():
+def validate_run(run):
+    """Validates a run object to check that no illegal values have slipped through."""
+    pass
+
+
+def construct_runstr(run):
     """Constructs run string.
     Requires: run
     Returns: runstr"""
     # Remember to escape all quotes and leave no starting or trailing spaces!
+    runstr = 'id="{0}" name="{1}" endstage="{2}"'.format(run.runid, run.runname, run.endstage)
+    if run.items:
+        pass    # Add list parsing
+    if run.trinkets:
+        pass    # Add list parsing
+    if run.startpill != -1:
+        runstr += ' startingpill="{0}"'.format(run.startpill)
+    if run.startcard:
+        runstr += ' startingcard="{0}"'.format(run.startcard)
+    if run.playertype:
+        runstr += ' playertype="{0}"'.format(run.playertype)
+    if run.bannedrooms:
+        pass  # Add list parsing
+    if run.bannedcurses:
+        pass  # Add list parsing
+    if run.forcedcurse:
+        runstr += ' getcurse="{0}"'.format(run.forcedcurse)
+    if run.achievements:
+        pass  # Add list parsing
+    if run.forcepath:
+        if run.forcepath > 0:
+            runstr += ' altpath="true"'     # value of 1 forces Cathedral
+        else:
+            runstr += ' altpath="false"'    # -1 forces Sheol
+    if not run.canshoot:
+        runstr += ' canshoot="false"'
+    if run.redhp:
+        runstr += ' redhp="{0}"'.format(run.redhp)
+    if run.maxhp:
+        runstr += ' maxhp="{0}"'.format(run.maxhp)
+    if run.soulhp:
+        runstr += ' soulhp="{0}"'.format(run.soulhp)
+    if run.blackhp:
+        runstr += ' blackhp="{0}"'.format(run.blackhp)
+    if run.coins:
+        runstr += ' coins="{0}"'.format(run.coins)
+    if run.maxdmg > 100:
+        runstr += ' maxdamage="{0}"'.format(run.maxdmg)
+    if run.adddmg:
+        runstr += ' adddamage="{0}"'.format(run.adddmg)
+    if run.minfirerate != -1:
+        runstr += ' minfirerate="{0}"'.format(run.minfirerate)
+    if run.minshotspeed != -1:
+        runstr += ' minshotspeed="{0}"'.format(run.minshotspeed)
+    if run.bigrange:
+        runstr += ' bigrange="true"'
+    if run.hardmode:
+        runstr += ' difficulty="1"'
+    if run.megasatan:
+        runstr += ' megasatan="true"'
+    return runstr
 
 
 def xml_export():
@@ -94,7 +151,12 @@ def xml_export():
     if outfile is None:     # Jump out if cancel is pressed
         return
     runstr = ""
-    outfile.write("<challenges version=\"1\">\n")           # Header
+    outfile.write('<challenges version="1">\n')             # Header
     outfile.write("<challenge {0} />\n".format(runstr))     # Challenge
     outfile.write("</challenges>\n")                        # Footer
     outfile.close()
+
+# testrun = RunContainer(runid=1, runname="Test", endstage=6)
+# testrun.coins = 99
+# teststr = construct_runstr(testrun)
+# print("<challenge {0} />\n".format(teststr))

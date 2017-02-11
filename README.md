@@ -1,5 +1,5 @@
 # Skeletorfw's Challenge Generator
-SCG is a challenge XML generator for Binding of Isaac Afterbirth+.
+SCG is a platform-agnostic challenge XML generator for Binding of Isaac Afterbirth+.
 
 It aims to provide an easy way to create valid challenge XML files using a simple interface or pasteable seed.
 
