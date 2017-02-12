@@ -83,6 +83,19 @@ def validate_run(run):
     pass
 
 
+def list2csstr(l):
+    """Turns a list into a comma-separated string."""
+    csstr = ""
+    count = 0
+    for x in l:
+        count += 1
+        if count == len(l):
+            csstr += "{0}".format(x)
+        else:
+            csstr += "{0}, ".format(x)
+    return csstr
+
+
 def construct_runstr(run):
     """Constructs run string.
     Requires: run
@@ -90,9 +103,9 @@ def construct_runstr(run):
     # Remember to escape all quotes and leave no starting or trailing spaces!
     runstr = 'id="{0}" name="{1}" endstage="{2}"'.format(run.runid, run.runname, run.endstage)
     if run.items:
-        pass    # Add list parsing
+        runstr += ' startingitems="{0}"'.format(list2csstr(run.items))
     if run.trinkets:
-        pass    # Add list parsing
+        runstr += ' startingtrinkets="{0}"'.format(list2csstr(run.trinkets))
     if run.startpill != -1:
         runstr += ' startingpill="{0}"'.format(run.startpill)
     if run.startcard:
@@ -100,7 +113,7 @@ def construct_runstr(run):
     if run.playertype:
         runstr += ' playertype="{0}"'.format(run.playertype)
     if run.bannedrooms:
-        pass  # Add list parsing
+        runstr += ' roomfilter="{0}"'.format(list2csstr(run.bannedrooms))
     if run.bannedcurses:
         pass  # Add list parsing
     if run.forcedcurse:
@@ -157,6 +170,6 @@ def xml_export():
     outfile.close()
 
 # testrun = RunContainer(runid=1, runname="Test", endstage=6)
-# testrun.coins = 99
+# testrun.bannedrooms = [1,2,3,5]
 # teststr = construct_runstr(testrun)
 # print("<challenge {0} />\n".format(teststr))
